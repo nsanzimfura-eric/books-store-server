@@ -28,6 +28,7 @@ app.listen(port, async () => {
   console.log(`App server listening on port ${port}`);
   try {
     await AppDataSource.initialize();
+    console.log("database initialized successfully");
   } catch (error) {
     console.log(error);
     console.log("Couldn't connect to database");

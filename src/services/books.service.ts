@@ -11,13 +11,13 @@ class BooksServices {
   async addBooksToStore(
     title: string,
     writer: string,
-    tag: string,
+    tags: string,
     cover_image: string
   ): Promise<Partial<Book>> {
     const book = {
       title,
       writer,
-      tag,
+      tags,
       cover_image,
     };
 

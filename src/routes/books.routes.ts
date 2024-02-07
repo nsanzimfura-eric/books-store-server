@@ -3,9 +3,9 @@ import BookControllers from "../controllers/book.controller";
 
 const BookRoutes = express.Router();
 
-BookRoutes.post("/books", BookControllers.addBookToStore);
+BookRoutes.post("/", BookControllers.addBookToStore);
 
-BookRoutes.post("/books/more", BookControllers.addMoreBooksToStore);
-BookRoutes.get("/books", BookControllers.findAllBooks);
+BookRoutes.post("/more", BookControllers.addMoreBooksToStore);
+BookRoutes.get("/", BookControllers.findAllBooks);
 
 export default BookRoutes;

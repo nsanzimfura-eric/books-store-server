@@ -1,0 +1,11 @@
+{
+  "books": [
+    {
+      "title": "The Encyclopedia of Animals",
+      "writer": "Univ of California Press",
+      "cover_image": "http://books.google.com/books/content?id=2V1tHqi4hLEC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
+      "tags": "non-fiction",
+      "points": 5.5
+    }
+  ]
+}

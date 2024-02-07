@@ -23,7 +23,7 @@ export class Book {
   writer!: string;
 
   @Column()
-  tag!: string;
+  tags!: string;
 
   @Column()
   points!: number;
