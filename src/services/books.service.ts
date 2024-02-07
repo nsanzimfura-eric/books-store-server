@@ -12,13 +12,15 @@ class BooksServices {
     title: string,
     writer: string,
     tags: string,
-    cover_image: string
+    cover_image: string,
+    points: number
   ): Promise<Partial<Book>> {
     const book = {
       title,
       writer,
       tags,
       cover_image,
+      points,
     };
 
     try {

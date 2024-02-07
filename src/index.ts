@@ -15,7 +15,7 @@ app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
-const port = process.env.APP_PORT || 5000;
+const port = process.env.APP_PORT || 8080;
 const swaggerDocument = swaggerJSDoc(swaggerDocumentOptions);
 
 app.get("/", (req, res) => {

@@ -5,9 +5,9 @@ const bookServices = new BooksServices();
 
 const BookControllers = {
   addBookToStore: async (req: Request, res: Response): Promise<any> => {
-    const { title, writer, tags, cover_image } = req.body;
+    const { title, writer, tags, cover_image, points } = req.body;
 
-    if (!title || !writer || !tags || !cover_image) {
+    if (!title || !writer || !tags || !cover_image || !points) {
       return res.status(400).send("All required fields are required!");
     }
 
@@ -16,7 +16,8 @@ const BookControllers = {
         title,
         writer,
         tags,
-        cover_image
+        cover_image,
+        points
       );
       return res.status(201).json({
         success: true,
@@ -39,8 +40,8 @@ const BookControllers = {
     try {
       let book;
       for (let b of books) {
-        const { title, writer, tags, cover_image } = b;
-        if (!title || !writer || !tags || !cover_image) {
+        const { title, writer, tags, cover_image, points } = b;
+        if (!title || !writer || !tags || !cover_image || !points) {
           return res.status(400).send("All required fields are required!");
         }
 
@@ -48,7 +49,8 @@ const BookControllers = {
           title,
           writer,
           tags,
-          cover_image
+          cover_image,
+          points
         );
       }
 
