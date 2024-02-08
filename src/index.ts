@@ -5,8 +5,8 @@ import { AppDataSource } from "./data-source";
 import routes from "./routes/index";
 import cors from "cors";
 import swaggerUi from "swagger-ui-express";
-import swaggerJSDoc from "swagger-jsdoc";
 import swaggerDocumentOptions from "./docs";
+import swaggerJSDoc from "swagger-jsdoc";
 
 const app: Application = express();
 

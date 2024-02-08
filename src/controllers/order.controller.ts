@@ -9,7 +9,7 @@ const usersServices = new AccountService();
 const booksServices = new BooksServices();
 
 const OrderControllers = {
-  placeOrder: async (req: any, res: Response): Promise<any> => {
+  placeOrder: async (req: UserInterface, res: Response): Promise<any> => {
     const { id: user_id } = req.user;
     if (!user_id) {
       return res.status(401).send("Login First!");
