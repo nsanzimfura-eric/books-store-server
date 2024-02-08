@@ -99,7 +99,7 @@
  *                   type: boolean
  *                 message:
  *                   type: string
- * /api/v1/auth/users
+ * /api/v1/auth/users:
  *   get:
  *     summary: Get all users in a store.
  *     tags:
