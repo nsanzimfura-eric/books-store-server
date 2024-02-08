@@ -26,13 +26,13 @@ export class Order {
   @Column()
   quantity!: number;
 
-  @OneToMany(() => User, (user) => user.order, {
+  @ManyToOne(() => User, (user) => user.orders, {
     onDelete: "CASCADE",
     onUpdate: "CASCADE",
     eager: true,
   })
   @JoinColumn({ name: "user_id" })
-  users: User[];
+  user: User;
 
   @ManyToMany(() => Book, (books) => books.orders, {
     onDelete: "CASCADE",

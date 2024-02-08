@@ -47,6 +47,16 @@ class BooksServices {
       console.log(error);
     }
   }
+  async deleteAll(): Promise<Book[] | []> {
+    try {
+      const allBooks = await this.booksRepository.delete({
+        title: false,
+      });
+      return allBooks;
+    } catch (error) {
+      console.log(error);
+    }
+  }
 }
 
 export default BooksServices;

@@ -2,9 +2,11 @@ import { Request, Response } from "express";
 import OrderServices from "../services/orders.service";
 import { UserInterface } from "../helpers/interfaces.helper";
 import AccountService from "../services/account.service";
+import BooksServices from "../services/books.service";
 
 const orderServices = new OrderServices();
 const usersServices = new AccountService();
+const booksServices = new BooksServices();
 
 const OrderControllers = {
   placeOrder: async (req: UserInterface, res: Response): Promise<any> => {
@@ -21,14 +23,16 @@ const OrderControllers = {
 
     //  does user exists and already have points ?
     const doesUserExist = await usersServices.findUserById(user_id);
-    if (!doesUserExist) {
-      return res.status(403).send("User does not exist!");
+    const doesBooksExist = await booksServices.bookById(book_id);
+    if (!doesUserExist || !doesBooksExist) {
+      return res.status(403).send("User or Book does not exist!");
     }
     // check for points
-    if (doesUserExist.points < Number(quantity)) {
+    const totalPrice = doesBooksExist.points * Number(quantity);
+    if (doesUserExist.points < totalPrice) {
       return res.status(403).send("Purchase an other points");
     }
-    const userPointsLeft = doesUserExist.points - Number(quantity);
+    const userPointsLeft = doesUserExist.points - totalPrice;
 
     try {
       const order = await orderServices.createOrder(
@@ -66,6 +70,25 @@ const OrderControllers = {
       return res.status(201).json({
         success: true,
         data: order,
+      });
+    } catch (err) {
+      return res.status(400).json({
+        success: false,
+        message: "Couldn't cancel Order",
+        error: err.message,
+      });
+    }
+  },
+  getAllOrders: async (req: UserInterface, res: Response): Promise<any> => {
+    const { id: user_id } = req.user;
+    if (!user_id) {
+      return res.status(401).send("Login First!");
+    }
+    try {
+      const orders = await orderServices.allOrdersByUserId(user_id);
+      return res.status(201).json({
+        success: true,
+        data: orders,
       });
     } catch (err) {
       return res.status(400).json({

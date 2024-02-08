@@ -9,6 +9,7 @@ const isAuthenticated = (req: Request, res: Response, next: NextFunction) => {
 
   jwt.verify(token, process.env.JWT_SECRET, (err: Error, decoded: any) => {
     if (err) {
+      console.log(err, "error");
       return res.status(401).json({ message: "Token is invalid or expired" });
     }
     // @ts-ignore

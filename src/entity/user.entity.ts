@@ -31,12 +31,11 @@ export class User {
   @Column({ default: 100 })
   points!: number;
 
-  @ManyToOne(() => Order, (order) => order.users, {
+  @OneToMany(() => Order, (order) => order.user, {
     onDelete: "CASCADE",
     onUpdate: "CASCADE",
   })
-  @JoinColumn()
-  order: Order;
+  orders?: Order[];
 
   @CreateDateColumn({ name: "created_at" })
   createdAt!: Date;

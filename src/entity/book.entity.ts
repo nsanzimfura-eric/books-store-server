@@ -4,7 +4,6 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
-  JoinColumn,
   ManyToMany,
 } from "typeorm";
 import { Order } from "./order.entity";
@@ -14,8 +13,8 @@ export class Book {
   @PrimaryGeneratedColumn("uuid")
   id!: string;
 
-  @Column({ name: "is_resolved", default: false })
-  title!: boolean;
+  @Column()
+  title!: string;
 
   @Column()
   writer!: string;
@@ -33,8 +32,7 @@ export class Book {
     onDelete: "CASCADE",
     onUpdate: "CASCADE",
   })
-  @JoinColumn()
-  orders: Order[];
+  orders?: Order[];
 
   @CreateDateColumn({ name: "created_at" })
   createdAt!: Date;
