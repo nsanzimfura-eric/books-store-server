@@ -23,7 +23,7 @@ const swaggerDocumentOptions = {
       },
     },
   },
-  apis: ["./src/docs/*"],
+  apis: ["./src/docs/*.docs.ts"],
 };
 
 export default swaggerDocumentOptions;

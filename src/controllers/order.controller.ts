@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { Response } from "express";
 import OrderServices from "../services/orders.service";
 import { UserInterface } from "../helpers/interfaces.helper";
 import AccountService from "../services/account.service";
