@@ -5,6 +5,3 @@ build/
 tmp/
 temp/
 .env
-.yarnrc.yml
-yarn.lock
-.yarn/
