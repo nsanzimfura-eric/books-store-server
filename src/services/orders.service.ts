@@ -2,6 +2,10 @@ import { AppDataSource } from "../data-source";
 import { Order } from "../entity/order.entity";
 import { User } from "../entity/user.entity";
 
+export interface OrderInterface {
+  book_id: string;
+  quantity: number;
+}
 class OrderServices {
   private ordersRepository: any;
   private usersRepository: any;
@@ -12,22 +16,24 @@ class OrderServices {
   }
 
   async createOrder(
-    book_id: string,
-    user_id: string,
-    quantity: number,
+    order: OrderInterface[],
     user: User,
     userPointsLeft: number
   ): Promise<Partial<Order>> {
     user.points = userPointsLeft;
-    const order = {
-      book_id,
-      user_id,
-      quantity,
-    };
 
     try {
       await this.usersRepository.save(user);
-      return await this.ordersRepository.insert(order);
+
+      const orders = order.map((item) => {
+        const newOrder = new Order();
+        newOrder.book_id = item.book_id;
+        newOrder.user_id = user.id;
+        newOrder.quantity = item.quantity;
+        return newOrder;
+      });
+      const savedOrders = await this.ordersRepository.save(orders);
+      return savedOrders;
     } catch (error) {
       throw error;
     }
