@@ -18,7 +18,7 @@ class OrderServices {
     user: User,
     userPointsLeft: number
   ): Promise<Partial<Order>> {
-    const newUser = (user.points = userPointsLeft);
+    user.points = userPointsLeft;
     const order = {
       book_id,
       user_id,
@@ -26,7 +26,7 @@ class OrderServices {
     };
 
     try {
-      await this.usersRepository.save(newUser);
+      await this.usersRepository.save(user);
       return await this.ordersRepository.insert(order);
     } catch (error) {
       throw error;

@@ -1,11 +1,14 @@
 import { AppDataSource } from "../data-source";
 import { Book } from "../entity/book.entity";
+import { Order } from "../entity/order.entity";
 
 class BooksServices {
   private booksRepository: any;
+  private orderRepo: any;
 
   constructor() {
     this.booksRepository = AppDataSource.getRepository(Book);
+    this.orderRepo = AppDataSource.getRepository(Order);
   }
 
   async addBooksToStore(
@@ -49,9 +52,7 @@ class BooksServices {
   }
   async deleteAll(): Promise<Book[] | []> {
     try {
-      const allBooks = await this.booksRepository.delete({
-        title: false,
-      });
+      const allBooks = await this.orderRepo.delete({});
       return allBooks;
     } catch (error) {
       console.log(error);

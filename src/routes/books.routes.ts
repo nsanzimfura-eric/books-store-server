@@ -7,6 +7,7 @@ BookRoutes.post("/", BookControllers.addBookToStore);
 
 BookRoutes.post("/more", BookControllers.addMoreBooksToStore);
 BookRoutes.get("/", BookControllers.findAllBooks);
-// BookRoutes.delete("/", BookControllers.deleteAll);
+// for demo
+BookRoutes.delete("/", BookControllers.deleteAll);
 
 export default BookRoutes;

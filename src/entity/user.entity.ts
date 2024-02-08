@@ -5,9 +5,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
   Unique,
-  JoinColumn,
   OneToMany,
-  ManyToOne,
 } from "typeorm";
 import { IsNotEmpty } from "class-validator";
 import { Order } from "./order.entity";
@@ -31,15 +29,16 @@ export class User {
   @Column({ default: 100 })
   points!: number;
 
-  @OneToMany(() => Order, (order) => order.user, {
-    onDelete: "CASCADE",
-    onUpdate: "CASCADE",
-  })
-  orders?: Order[];
-
   @CreateDateColumn({ name: "created_at" })
   createdAt!: Date;
 
   @UpdateDateColumn({ name: "updated_at" })
   updatedAt!: Date;
+
+  @OneToMany(() => Order, (orders) => orders.user, {
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE",
+    eager: true,
+  })
+  orders?: Order[];
 }

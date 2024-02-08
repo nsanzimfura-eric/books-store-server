@@ -28,15 +28,15 @@ export class Book {
   @Column()
   cover_image!: string;
 
-  @ManyToMany(() => Order, (orders) => orders.books, {
-    onDelete: "CASCADE",
-    onUpdate: "CASCADE",
-  })
-  orders?: Order[];
-
   @CreateDateColumn({ name: "created_at" })
   createdAt!: Date;
 
   @UpdateDateColumn({ name: "updated_at" })
   updatedAt!: Date;
+
+  @ManyToMany(() => Order, (orders) => orders.books, {
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE",
+  })
+  orders?: Order[];
 }

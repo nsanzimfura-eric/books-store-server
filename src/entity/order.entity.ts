@@ -4,10 +4,10 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
-  JoinColumn,
   ManyToOne,
   ManyToMany,
-  OneToMany,
+  JoinTable,
+  JoinColumn,
 } from "typeorm";
 import { User } from "./user.entity";
 import { Book } from "./book.entity";
@@ -20,31 +20,27 @@ export class Order {
   @Column()
   book_id!: string;
 
-  @Column({ unique: true })
+  @Column({ nullable: true })
   user_id!: string;
 
   @Column()
   quantity!: number;
-
-  @ManyToOne(() => User, (user) => user.orders, {
-    onDelete: "CASCADE",
-    onUpdate: "CASCADE",
-    eager: true,
-  })
-  @JoinColumn({ name: "user_id" })
-  user: User;
-
-  @ManyToMany(() => Book, (books) => books.orders, {
-    onDelete: "CASCADE",
-    onUpdate: "CASCADE",
-    eager: true,
-  })
-  @JoinColumn({ name: "book_id" })
-  books: Book[];
 
   @CreateDateColumn({ name: "created_at" })
   createdAt!: Date;
 
   @UpdateDateColumn({ name: "updated_at" })
   updatedAt!: Date;
+
+  @ManyToOne(() => User, (user) => user.orders)
+  @JoinColumn({ name: "user_id" })
+  user!: User;
+
+  @ManyToMany(() => Book, (book) => book.orders, {
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE",
+    eager: true,
+  })
+  @JoinTable({ name: "orders_books" })
+  books!: Book[];
 }

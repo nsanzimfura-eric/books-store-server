@@ -77,11 +77,9 @@ class AccountService {
       return error;
     }
   }
-  async findAllUsers(): Promise<User[] | null> {
+  async findAllUsers(): Promise<User[] | []> {
     try {
-      const usersRepo = AppDataSource.getRepository(User);
-
-      const allUsers = await usersRepo.find();
+      const allUsers = await await this.UserRepository.find();
       return allUsers;
     } catch (error) {
       return error;

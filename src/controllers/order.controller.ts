@@ -50,8 +50,8 @@ const OrderControllers = {
     } catch (err) {
       return res.status(400).json({
         success: false,
-        message: "Couldn't create Order",
-        error: err.message,
+        message: "Couldn't Place Order",
+        error: err,
       });
     }
   },
@@ -93,7 +93,7 @@ const OrderControllers = {
     } catch (err) {
       return res.status(400).json({
         success: false,
-        message: "Couldn't cancel Order",
+        message: "Couldn't Get your Orders",
         error: err.message,
       });
     }
