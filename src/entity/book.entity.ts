@@ -1,15 +1,13 @@
 import {
   Column,
   CreateDateColumn,
-  DeleteDateColumn,
   Entity,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
-  ManyToOne,
   JoinColumn,
-  OneToMany,
-  Generated,
+  ManyToMany,
 } from "typeorm";
+import { Order } from "./order.entity";
 
 @Entity()
 export class Book {
@@ -30,6 +28,13 @@ export class Book {
 
   @Column()
   cover_image!: string;
+
+  @ManyToMany(() => Order, (orders) => orders.books, {
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE",
+  })
+  @JoinColumn()
+  orders: Order[];
 
   @CreateDateColumn({ name: "created_at" })
   createdAt!: Date;

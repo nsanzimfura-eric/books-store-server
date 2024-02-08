@@ -8,5 +8,6 @@ const AccountRoutes = express.Router();
 AccountRoutes.post("/login", AccountController.login);
 
 AccountRoutes.post("/register", AccountController.register);
+AccountRoutes.get("/users", AccountController.getAllUsers);
 
 export default AccountRoutes;

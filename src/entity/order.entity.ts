@@ -1,14 +1,16 @@
 import {
   Column,
   CreateDateColumn,
-  DeleteDateColumn,
   Entity,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
-  OneToMany,
   JoinColumn,
-  Generated,
+  ManyToOne,
+  ManyToMany,
+  OneToMany,
 } from "typeorm";
+import { User } from "./user.entity";
+import { Book } from "./book.entity";
 
 @Entity()
 export class Order {
@@ -24,15 +26,25 @@ export class Order {
   @Column()
   quantity!: number;
 
-  @Column({ default: false })
-  canceled!: boolean;
+  @OneToMany(() => User, (user) => user.order, {
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE",
+    eager: true,
+  })
+  @JoinColumn({ name: "user_id" })
+  users: User[];
+
+  @ManyToMany(() => Book, (books) => books.orders, {
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE",
+    eager: true,
+  })
+  @JoinColumn({ name: "book_id" })
+  books: Book[];
 
   @CreateDateColumn({ name: "created_at" })
   createdAt!: Date;
 
   @UpdateDateColumn({ name: "updated_at" })
   updatedAt!: Date;
-
-  @DeleteDateColumn({ name: "deleted_at" })
-  deletedAt?: Date;
 }

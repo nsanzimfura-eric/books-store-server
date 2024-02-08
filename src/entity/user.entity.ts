@@ -1,17 +1,16 @@
 import {
   Column,
   CreateDateColumn,
-  DeleteDateColumn,
   Entity,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
-  ManyToOne,
   Unique,
   JoinColumn,
   OneToMany,
-  Generated,
+  ManyToOne,
 } from "typeorm";
-import { IsEmail, IsNotEmpty } from "class-validator";
+import { IsNotEmpty } from "class-validator";
+import { Order } from "./order.entity";
 
 @Entity()
 @Unique(["email"])
@@ -23,7 +22,6 @@ export class User {
   full_name!: string;
 
   @Column({ unique: true })
-  @IsEmail({}, { message: "Invalid email format" })
   @IsNotEmpty({ message: "Email is required" })
   email!: string;
 
@@ -33,21 +31,12 @@ export class User {
   @Column({ default: 100 })
   points!: number;
 
-  // @ManyToOne(() => Institution, (institution) => institution.admins, {
-  //   onDelete: "CASCADE",
-  //   onUpdate: "CASCADE",
-  //   eager: true,
-  // })
-  // @JoinColumn({ name: "institution_id" })
-  // adminInstitution: Institution;
-
-  // @OneToMany(() => Project, (project) => project.admins, {
-  //   onDelete: "CASCADE",
-  //   onUpdate: "CASCADE",
-  //   eager: false,
-  // })
-  // @JoinColumn()
-  // assignedProjects: Project[];
+  @ManyToOne(() => Order, (order) => order.users, {
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE",
+  })
+  @JoinColumn()
+  order: Order;
 
   @CreateDateColumn({ name: "created_at" })
   createdAt!: Date;

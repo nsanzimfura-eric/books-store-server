@@ -4,6 +4,6 @@ import OrderControllers from "../controllers/order.controller";
 
 const OrderRoutes = express.Router();
 
-OrderRoutes.post("/order", isAuthenticated, OrderControllers.createOrder);
+OrderRoutes.post("/order", isAuthenticated, OrderControllers.placeOrder);
 
 export default OrderRoutes;

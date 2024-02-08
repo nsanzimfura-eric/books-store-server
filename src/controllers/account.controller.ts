@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { UserInterface } from "../helpers/interfaces.helper";
 import AccountService from "../services/account.service";
+import { IsValidEmail } from "../validators/isEmail.validator";
 
 const accountService = new AccountService();
 
@@ -11,14 +12,12 @@ const AccountController = {
     if (!full_name || !password || !email) {
       return res.status(400).send("All required fields  are required!");
     }
-    let lowerCaseEmail = email;
-    if (email) {
-      lowerCaseEmail = email.trim().toLowerCase();
-      const doesEmailExist = await accountService.findUserByEmail(
-        lowerCaseEmail
-      );
-      if (doesEmailExist) return res.status(400).send("Email already exists!");
-    }
+    let lowerCaseEmail = email.trim().toLowerCase();
+    if (!IsValidEmail(lowerCaseEmail))
+      return res.status(400).send("Invalid email");
+
+    const doesEmailExist = await accountService.findUserByEmail(lowerCaseEmail);
+    if (doesEmailExist) return res.status(400).send("Email already exists!");
 
     try {
       const user = await accountService.createUser(full_name, email, password);
@@ -29,7 +28,7 @@ const AccountController = {
     } catch (err) {
       return res.status(400).json({
         success: false,
-        message: "Couldn't save new user",
+        message: "Couldn't register",
         error: err.message,
       });
     }
@@ -54,6 +53,21 @@ const AccountController = {
       return res.status(200).json({
         success: true,
         data,
+      });
+    } catch (error) {
+      return res.status(500).json({
+        success: false,
+        message: error.message,
+      });
+    }
+  },
+  getAllUsers: async (req: Request, res: Response): Promise<any> => {
+    try {
+      const users = await accountService.findAllUsers();
+
+      return res.status(200).json({
+        success: true,
+        data: users,
       });
     } catch (error) {
       return res.status(500).json({

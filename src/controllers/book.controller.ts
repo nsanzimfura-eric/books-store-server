@@ -26,7 +26,7 @@ const BookControllers = {
     } catch (err) {
       return res.status(400).json({
         success: false,
-        message: "Couldn't save new user",
+        message: "Couldn't add books",
         error: err.message,
       });
     }
@@ -61,7 +61,7 @@ const BookControllers = {
     } catch (err) {
       return res.status(400).json({
         success: false,
-        message: "Couldn't save new user",
+        message: "Couldn't add books to store",
         error: err.message,
       });
     }
