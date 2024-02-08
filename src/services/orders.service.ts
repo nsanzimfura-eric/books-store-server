@@ -1,18 +1,24 @@
 import { AppDataSource } from "../data-source";
 import { Order } from "../entity/order.entity";
+import { User } from "../entity/user.entity";
 
 class OrderServices {
   private ordersRepository: any;
+  private usersRepository: any;
 
   constructor() {
     this.ordersRepository = AppDataSource.getRepository(Order);
+    this.usersRepository = AppDataSource.getRepository(User);
   }
 
   async createOrder(
     book_id: string,
     user_id: string,
-    quantity: number
+    quantity: number,
+    user: User,
+    userPointsLeft: number
   ): Promise<Partial<Order>> {
+    const newUser = (user.points = userPointsLeft);
     const order = {
       book_id,
       user_id,
@@ -20,6 +26,7 @@ class OrderServices {
     };
 
     try {
+      await this.usersRepository.save(newUser);
       return await this.ordersRepository.insert(order);
     } catch (error) {
       throw error;
@@ -31,16 +38,16 @@ class OrderServices {
     order: Order
   ): Promise<Partial<Order>> {
     order.quantity = quantity;
-
     try {
       return await this.ordersRepository.save(order);
     } catch (error) {
       throw error;
     }
   }
+
   async cancelOrder(user_id: string): Promise<Partial<Order>> {
     try {
-      return await this.ordersRepository.delete({ where: { user_id } });
+      return await this.ordersRepository.delete({ user_id });
     } catch (error) {
       throw error;
     }
