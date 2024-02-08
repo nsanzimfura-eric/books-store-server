@@ -4,7 +4,7 @@ const swaggerDocumentOptions = {
     info: {
       title: "API Library",
       version: "1.0.0",
-      description: "RSA Data Collection",
+      description: "Books store api",
     },
     servers: [
       {
