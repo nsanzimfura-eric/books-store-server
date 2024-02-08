@@ -1,15 +1,15 @@
 import { Response } from "express";
 import OrderServices from "../services/orders.service";
-import { UserInterface } from "../helpers/interfaces.helper";
 import AccountService from "../services/account.service";
 import BooksServices from "../services/books.service";
+import { UserInterface } from "../helpers/interfaces.helper";
 
 const orderServices = new OrderServices();
 const usersServices = new AccountService();
 const booksServices = new BooksServices();
 
 const OrderControllers = {
-  placeOrder: async (req: UserInterface, res: Response): Promise<any> => {
+  placeOrder: async (req: any, res: Response): Promise<any> => {
     const { id: user_id } = req.user;
     if (!user_id) {
       return res.status(401).send("Login First!");
