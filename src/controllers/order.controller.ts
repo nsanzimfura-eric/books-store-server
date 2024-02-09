@@ -68,10 +68,6 @@ const OrderControllers = {
     if (!user_id) {
       return res.status(401).send("Login First!");
     }
-    //  does user exists and already have points ?
-    const doesUserExist = await usersServices.findUserById(user_id);
-
-    // const userPointsLeft = doesUserExist.points - Number(quantity);
 
     try {
       const order = await orderServices.cancelOrder(user_id);

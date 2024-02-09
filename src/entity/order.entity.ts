@@ -5,9 +5,8 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
   ManyToOne,
-  ManyToMany,
-  JoinTable,
   JoinColumn,
+  OneToMany,
 } from "typeorm";
 import { User } from "./user.entity";
 import { Book } from "./book.entity";
@@ -36,11 +35,11 @@ export class Order {
   @JoinColumn({ name: "user_id" })
   user!: User;
 
-  @ManyToMany(() => Book, (book) => book.orders, {
+  @OneToMany(() => Book, (books) => books.order, {
     onDelete: "CASCADE",
     onUpdate: "CASCADE",
     eager: true,
   })
-  @JoinTable({ name: "orders_books" })
+  @JoinColumn({ name: "book_id" })
   books!: Book[];
 }
