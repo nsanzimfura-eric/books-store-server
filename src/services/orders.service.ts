@@ -82,7 +82,7 @@ class OrderServices {
           const book = await this.booksRepository.find({
             where: { id: ord.book_id },
           });
-          ord.book = [book];
+          ord.book = book;
         }
       }
       return ordersByUser;
