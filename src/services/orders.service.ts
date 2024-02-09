@@ -1,4 +1,5 @@
 import { AppDataSource } from "../data-source";
+import { Book } from "../entity/book.entity";
 import { Order } from "../entity/order.entity";
 import { User } from "../entity/user.entity";
 
@@ -9,10 +10,12 @@ export interface OrderInterface {
 class OrderServices {
   private ordersRepository: any;
   private usersRepository: any;
+  private booksRepository: any;
 
   constructor() {
     this.ordersRepository = AppDataSource.getRepository(Order);
     this.usersRepository = AppDataSource.getRepository(User);
+    this.booksRepository = AppDataSource.getRepository(Book);
   }
 
   async createOrder(
@@ -70,9 +73,18 @@ class OrderServices {
 
   async allOrdersByUserId(user_id: string): Promise<Order[] | []> {
     try {
-      const ordersByUser = await this.ordersRepository.find({
+      const ordersByUser: Order[] = await this.ordersRepository.find({
         where: { user_id },
       });
+
+      if (ordersByUser) {
+        for (let ord of ordersByUser) {
+          const book = await this.booksRepository.find({
+            where: { id: ord.book_id },
+          });
+          ord.book = [book];
+        }
+      }
       return ordersByUser;
     } catch (error) {
       console.log(error);

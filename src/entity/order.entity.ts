@@ -41,5 +41,5 @@ export class Order {
     eager: true,
   })
   @JoinColumn({ name: "book_id" })
-  books!: Book[];
+  book: Book[];
 }

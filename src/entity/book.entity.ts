@@ -4,8 +4,8 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
-  ManyToMany,
   ManyToOne,
+  OneToMany,
 } from "typeorm";
 import { Order } from "./order.entity";
 
@@ -35,7 +35,7 @@ export class Book {
   @UpdateDateColumn({ name: "updated_at" })
   updatedAt!: Date;
 
-  @ManyToOne(() => Order, (order) => order.books, {
+  @ManyToOne(() => Order, (order) => order.book, {
     onDelete: "CASCADE",
     onUpdate: "CASCADE",
   })
