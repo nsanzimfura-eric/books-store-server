@@ -1,10 +1,10 @@
 /**
  * @swagger
- * /api/v1/books/:
+ * /api/v1/books/more:
  *   post:
- *     summary: Authenticate a user.
+ *     summary: Add multiple books to the store.
  *     tags:
- *       - Auth
+ *       - Books
  *     requestBody:
  *       required: true
  *       content:
@@ -12,84 +12,43 @@
  *           schema:
  *             type: object
  *             properties:
- *               email:
- *                 type: string
- *               password:
- *                 type: string
- *     responses:
- *       200:
- *         description: Successfully authenticated.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 success:
- *                   type: boolean
- *                   description: Indicates whether the request was successful.
- *                 data:
- *                   type: object
- *                   description: User authentication data.
- *       400:
- *         description: Authentication failed.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 success:
- *                   type: boolean
- *                   description: Indicates whether the request was successful.
- *                 message:
- *                   type: string
- *                   description: Error message.
- * /api/v1/auth/register/:
- *   post:
- *     summary: Register new User
- *     tags:
- *       - Auth
- *     parameters:
- *       - name: full_name
- *         in: body
- *         description: User's names.
- *         required: true
- *         schema:
- *           type: string
- *       - name: password
- *         in: body
- *         description: User's password.
- *         required: true
- *         schema:
- *           type: string
- *       - name: email
- *         in: body
- *         description: User's email.
- *         required: true
- *         schema:
- *           type: string
- *     responses:
- *       201:
- *         description: Successfully registered a new user.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 success:
- *                   type: boolean
- *                 data:
+ *               books:
+ *                 type: array
+ *                 items:
  *                   type: object
  *                   properties:
- *                     id:
+ *                     title:
+ *                       type: string
+ *                       description: Title of the book.
+ *                     writer:
+ *                       type: string
+ *                       description: Author of the book.
+ *                     cover_image:
+ *                       type: string
+ *                       format: uri
+ *                       description: URL to the cover image of the book.
+ *                     tags:
+ *                       type: string
+ *                       description: Comma-separated tags for the book.
+ *                     points:
  *                       type: integer
- *                     created_at:
- *                       type: string
- *                     updated_at:
- *                       type: string
- *                     deleted_at:
- *                       type: string
+ *                       description: Points associated with the book.
+ *     responses:
+ *       200:
+ *         description: Books successfully added to the store.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   description: Indicates whether the books were successfully added.
+ *                 message:
+ *                   type: string
+ *                   description: Success message.
  *       400:
- *         description: Bad request. Indicates that the specified request is not valid.
+ *         description: Bad request. Indicates that the request payload is not valid.
  *         content:
  *           application/json:
  *             schema:
@@ -99,23 +58,15 @@
  *                   type: boolean
  *                 message:
  *                   type: string
- * /api/v1/auth/users:
+ *                   description: Error message detailing what went wrong.
+ * /api/v1/books:
  *   get:
- *     summary: Get all users in a store.
+ *     summary: Get all books from the store.
  *     tags:
- *       - Users
- *     security:
- *       - bearerAuth: []
- *     parameters:
- *       - name: project_id
- *         in: path
- *         description: The ID of the project for which to retrieve users.
- *         required: true
- *         schema:
- *           type: integer
+ *       - Books
  *     responses:
  *       200:
- *         description: Successfully retrieved a list of users in the project.
+ *         description: A list of books.
  *         content:
  *           application/json:
  *             schema:
@@ -123,183 +74,38 @@
  *               properties:
  *                 success:
  *                   type: boolean
+ *                   example: true
  *                 data:
  *                   type: array
  *                   items:
  *                     type: object
  *                     properties:
  *                       id:
+ *                         type: string
+ *                         example: "bd902e3a-4686-4f16-b376-3d4be0f1a5fe"
+ *                       title:
+ *                         type: string
+ *                         example: "Taras Bulba"
+ *                       writer:
+ *                         type: string
+ *                         example: "Nikolái V. Gogol"
+ *                       tags:
+ *                         type: string
+ *                         example: "fiction,science"
+ *                       points:
  *                         type: integer
- *                       firstName:
+ *                         example: 13
+ *                       cover_image:
  *                         type: string
- *                       lastName:
- *                         type: string
- *                       email:
- *                         type: string
- *       404:
- *         description: Not found. Indicates that the specified project does not exist.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 success:
- *                   type: boolean
- *                 message:
- *                   type: string
- *       401:
- *         description: Unauthorized. Indicates that the user is not authenticated.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 success:
- *                   type: boolean
- *                 message:
- *                   type: string
- * /api/v1/auth/accounts/institution-admins:
- *   get:
- *     summary: Get all admins in one institution
- *     tags:
- *       - Accounts
- *     security:
- *       - bearerAuth: []
- *     responses:
- *       200:
- *         description: Successfully retrieved a list of users in the project.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 success:
- *                   type: boolean
- *                 data:
- *                   type: array
- *                   items:
- *                     type: object
- *                     properties:
- *                       id:
- *                         type: integer
- *                       firstName:
- *                         type: string
- *                       lastName:
- *                         type: string
- *                       email:
- *                         type: string
- *                       image_url:
- *                         type: string
- *                       phone:
- *                         type: string
- *                       password:
- *                         type: string
- *                       project_id:
- *                         type: integer
- *                       institution_id:
- *                         type: integer
- *                       isActive:
- *                         type: boolean
- *                       role:
- *                         type: string
+ *                         example: "http://books.google.com/books/content?id=XdMBTKWSfeMC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
  *                       createdAt:
  *                         type: string
+ *                         format: date-time
+ *                         example: "2024-02-08T09:02:13.013Z"
  *                       updatedAt:
  *                         type: string
- *                       deletedAt:
- *                         type: string
- *       404:
- *         description: Not found. Indicates that the specified project does not exist.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 success:
- *                   type: boolean
- *                 message:
- *                   type: string
- *       401:
- *         description: Unauthorized. Indicates that the user is not authenticated.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 success:
- *                   type: boolean
- *                 message:
- *                   type: string
- * /api/v1/auth/accounts/admins:
- *   get:
- *     summary: Get all admins in the app, by super admin
- *     tags:
- *       - Accounts
- *     security:
- *       - bearerAuth: []
- *     responses:
- *       200:
- *         description: Successfully retrieved a list of users in the project.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 success:
- *                   type: boolean
- *                 data:
- *                   type: array
- *                   items:
- *                     type: object
- *                     properties:
- *                       id:
- *                         type: integer
- *                       firstName:
- *                         type: string
- *                       lastName:
- *                         type: string
- *                       email:
- *                         type: string
- *                       image_url:
- *                         type: string
- *                       phone:
- *                         type: string
- *                       password:
- *                         type: string
- *                       project_id:
- *                         type: integer
- *                       institution_id:
- *                         type: integer
- *                       isActive:
- *                         type: boolean
- *                       role:
- *                         type: string
- *                       createdAt:
- *                         type: string
- *                       updatedAt:
- *                         type: string
- *                       deletedAt:
- *                         type: string
- *       404:
- *         description: Not found. Indicates that the specified project does not exist.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 success:
- *                   type: boolean
- *                 message:
- *                   type: string
- *       401:
- *         description: Unauthorized. Indicates that the user is not authenticated.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 success:
- *                   type: boolean
- *                 message:
- *                   type: string
+ *                         format: date-time
+ *                         example: "2024-02-08T09:02:13.013Z"
+ *       500:
+ *         description: Internal server error
  */
